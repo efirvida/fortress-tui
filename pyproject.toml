@@ -13,6 +13,7 @@ authors = [{ name = "efirvida" }]
 dependencies = [
     "textual>=0.60.0",
     "rich>=13.0",
+    "fortress-engine",
 ]
 
 [project.optional-dependencies]
@@ -36,8 +37,8 @@ python_files = ["test_*.py"]
 source = ["src/fortress_tui"]
 
 # ---------------------------------------------------------------------------
-# Fortress-engine: dependencia local durante desarrollo.
-# Cuando fortress-engine se publique en PyPI, reemplazar con "fortress-engine>=0.1.0".
+# Fortress-engine: instalado desde el repositorio de GitHub (estable).
+# Cuando se publique en PyPI, reemplazar con "fortress-engine>=X.Y.Z".
 # ---------------------------------------------------------------------------
 [tool.uv.sources]
-fortress-engine = { path = "../fortress", develop = true }
+fortress-engine = { git = "https://github.com/efirvida/fortress-engine.git", rev = "main" }
