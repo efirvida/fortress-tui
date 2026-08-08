@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Tests + coverage gate
+    name: Tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -37,9 +37,33 @@ jobs:
             --cov-report=json \
             -q
 
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.python-version }}
+          path: coverage.json
+          if-no-files-found: error
+
+  coverage-gate:
+    # Standalone job whose exact name matches the branch protection
+    # required status check ("Tests + coverage gate") — a matrix job would
+    # produce suffixed check names and block merges forever.
+    name: Tests + coverage gate
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download coverage report (3.11)
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-3.11
+          path: .
+
       - name: Enforce coverage hard gate (> 99% statements AND branches)
         run: python scripts/check_coverage_gate.py
-
-      - name: Fail if gate script missing
-        if: failure()
-        run: echo "Coverage gate failed — fix tests before merging."
