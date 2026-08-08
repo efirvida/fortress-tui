@@ -1,0 +1,6 @@
+entity_id: "pasillo"
+type: "room"
+name: "Pasillo de Piedra"
+components:
+  description: "Un pasillo estrecho con antorchas parpadeantes. Al este ves una puerta con un candado. Al oeste, una puerta de roble. Al sur, se escucha el sonido de cuchillos."
+  visited: false

@@ -1,0 +1,7 @@
+entity_id: "llave_oxidada"
+type: "item"
+name: "Llave Oxidada"
+components:
+  weight: 1
+  description: "Una llave vieja y oxidada. Podría abrir un candado."
+spatial_anchor: "celda"

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fortress-showcase"
+version = "0.1.0"
+description = "Terminal showcase for fortress-engine — developer reference TUI"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "efirvida" }]
+dependencies = [
+    "textual>=0.60.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "textual-dev>=1.0",
+]
+
+[project.scripts]
+fortress-showcase = "fortress_showcase.app:main"
+
+[tool.hatch.targets.wheel]
+packages = ["src/fortress_showcase"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+# ---------------------------------------------------------------------------
+# Fortress-engine: dependencia local durante desarrollo.
+# Cuando fortress-engine se publique en PyPI, reemplazar con "fortress-engine>=0.1.0".
+# ---------------------------------------------------------------------------
+[tool.uv.sources]
+fortress-engine = { path = "../fortress", develop = true }

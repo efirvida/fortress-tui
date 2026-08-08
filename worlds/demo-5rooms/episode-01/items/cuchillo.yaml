@@ -1,0 +1,7 @@
+entity_id: "cuchillo"
+type: "item"
+name: "Cuchillo de Cocina"
+components:
+  weight: 2
+  description: "Un cuchillo afilado, útil para cortar."
+spatial_anchor: "cocina"

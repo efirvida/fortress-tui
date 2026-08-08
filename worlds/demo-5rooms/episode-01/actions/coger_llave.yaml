@@ -1,0 +1,13 @@
+- hyper_edge_id: "coger_llave"
+  name: "Coger la llave oxidada"
+  priority: 10
+  clique:
+    subject: "player"
+    verb: "coger"
+    target: "llave_oxidada"
+  operators:
+    - type: "TRANSFER"
+      entity: "llave_oxidada"
+      from_container: "celda"
+      to_container: "hero"
+  output: "Recoges la llave oxidada del suelo. Pesa poco pero podría ser útil."

@@ -1,0 +1,6 @@
+entity_id: "celda"
+type: "room"
+name: "Celda Oscura"
+components:
+  description: "Estás en una celda pequeña y húmeda. La única luz proviene de una grieta en el techo. Hay una puerta de hierro al norte."
+  visited: false

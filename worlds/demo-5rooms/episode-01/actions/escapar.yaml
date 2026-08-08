@@ -1,0 +1,13 @@
+- hyper_edge_id: "escapar"
+  name: "Escapar del complejo"
+  priority: 10
+  clique:
+    subject: "player"
+    verb: "ir"
+    target: "jardin"
+    flag: "enredaderas_cortadas"
+  operators:
+    - type: "FLAG"
+      flag: "escapado"
+      value: true
+  output: "Avanzas por el claro abierto. El viento fresco te golpea la cara. ¡Estás fuera!"

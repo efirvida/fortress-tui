@@ -1,0 +1,6 @@
+entity_id: "jardin"
+type: "room"
+name: "Jardin Enredado"
+components:
+  description: "Un jardín silvestre con enredaderas gruesas bloqueando la salida. Hay un libro aquí también. Si tuvieras algo cortante, podrías abrirte paso."
+  visited: false

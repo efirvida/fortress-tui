@@ -1,0 +1,16 @@
+id: "episode-01"
+name: "Tutorial — 5 Rooms"
+order: 1
+description: "Un tutorial progresivo que demuestra las capacidades del motor: movimiento, inventario, llaves, puzzles."
+requires: []
+start_anchor: "celda"
+goal:
+  conditions:
+    - type: "flag_is_set"
+      params:
+        flag: "escapado"
+  output: "¡Has escapado del complejo! Has completado el tutorial."
+  side_effects: []
+carry_over:
+  inventory: []
+  flags: []

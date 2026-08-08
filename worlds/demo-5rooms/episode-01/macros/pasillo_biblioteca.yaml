@@ -1,0 +1,7 @@
+- macro_edge_id: "pasillo_to_biblioteca"
+  from_anchor: "pasillo"
+  to_anchor: "biblioteca"
+  direction: "bidirectional"
+  passage_name: "este"
+  passage_description: "Una puerta con candado al este."
+  requires_item: "llave_oxidada"

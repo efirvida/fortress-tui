@@ -1,0 +1,7 @@
+entity_id: "libro"
+type: "item"
+name: "Libro Misterioso"
+components:
+  weight: 3
+  description: "Un libro antiguo con runas brillantes."
+spatial_anchor: "biblioteca"

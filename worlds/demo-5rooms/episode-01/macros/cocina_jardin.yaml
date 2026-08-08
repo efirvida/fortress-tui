@@ -1,0 +1,6 @@
+- macro_edge_id: "cocina_to_jardin"
+  from_anchor: "cocina"
+  to_anchor: "jardin"
+  direction: "bidirectional"
+  passage_name: "norte"
+  passage_description: "Una salida al jardín al norte."

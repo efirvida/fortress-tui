@@ -1,0 +1,12 @@
+- hyper_edge_id: "leer_libro"
+  name: "Leer el libro misterioso"
+  priority: 10
+  clique:
+    subject: "player"
+    verb: "leer"
+    target: "libro"
+  operators:
+    - type: "FLAG"
+      flag: "libro_leido"
+      value: true
+  output: "Lees las runas del libro. Hablan de una salida oculta en el jardín. Al terminar, el libro se desvanece en tus manos."

@@ -1,0 +1,13 @@
+- hyper_edge_id: "cortar_enredaderas"
+  name: "Cortar las enredaderas"
+  priority: 10
+  clique:
+    subject: "player"
+    verb: "cortar"
+    target: "jardin"
+    instrument: "cuchillo"
+  operators:
+    - type: "FLAG"
+      flag: "enredaderas_cortadas"
+      value: true
+  output: "Cortas las enredaderas con el cuchillo. Se abre un claro hacia la libertad. Pero sientes que te falta algo... ¿habría que dejar algo a cambio?"

@@ -1,0 +1,39 @@
+language: "es"
+
+verbs:
+  ir: ["ir", "atravesar", "cruzar"]
+  norte: ["norte", "n"]
+  sur: ["sur", "s"]
+  este: ["este", "e"]
+  oeste: ["oeste", "o"]
+  coger: ["coger", "tomar", "agarrar"]
+  dejar: ["dejar", "soltar"]
+  abrir: ["abrir"]
+  leer: ["leer", "examinar", "mirar"]
+  usar: ["usar", "emplear"]
+  cortar: ["cortar", "tajar"]
+  inventario: ["inventario", "inv"]
+  salvar: ["salvar", "guardar"]
+  cargar: ["cargar"]
+  ayuda: ["ayuda", "help"]
+
+stopwords: ["la", "el", "los", "las", "un", "una", "al", "del", "de", "en", "con", "por", "para", "a"]
+
+prepositions:
+  con: ["con"]
+  a: ["a"]
+  en: ["en"]
+  por: ["por"]
+  de: ["de"]
+
+speech_markers: []
+speech_verbs: []
+
+movement_verbs: ["ir", "norte", "sur", "este", "oeste", "atravesar", "cruzar"]
+
+system_commands:
+  save: ["salvar", "guardar"]
+  load: ["cargar"]
+
+messages:
+  welcome: "Bienvenido al Demo de 5 Habitaciones. Escribe 'ayuda' para ver los comandos disponibles."

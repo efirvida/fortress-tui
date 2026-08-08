@@ -1,0 +1,13 @@
+- hyper_edge_id: "coger_cuchillo"
+  name: "Coger el cuchillo de cocina"
+  priority: 10
+  clique:
+    subject: "player"
+    verb: "coger"
+    target: "cuchillo"
+  operators:
+    - type: "TRANSFER"
+      entity: "cuchillo"
+      from_container: "cocina"
+      to_container: "hero"
+  output: "Despegas el cuchillo de la mesa. Está afilado."

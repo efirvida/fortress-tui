@@ -1,0 +1,6 @@
+entity_id: "cocina"
+type: "room"
+name: "Cocina Abandonada"
+components:
+  description: "Una cocina con ollas colgando y un mesón de piedra. Hay un cuchillo de cocina clavado en la mesa. La salida al norte lleva a un jardín."
+  visited: false

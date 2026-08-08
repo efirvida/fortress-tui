@@ -1,0 +1,6 @@
+- macro_edge_id: "pasillo_to_celda"
+  from_anchor: "pasillo"
+  to_anchor: "celda"
+  direction: "bidirectional"
+  passage_name: "sur"
+  passage_description: "La puerta de la celda al sur."

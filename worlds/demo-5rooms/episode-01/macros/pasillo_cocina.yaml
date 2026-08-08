@@ -1,0 +1,6 @@
+- macro_edge_id: "pasillo_to_cocina"
+  from_anchor: "pasillo"
+  to_anchor: "cocina"
+  direction: "bidirectional"
+  passage_name: "oeste"
+  passage_description: "Una puerta de roble al oeste."

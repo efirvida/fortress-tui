@@ -1,0 +1,6 @@
+entity_id: "biblioteca"
+type: "room"
+name: "Biblioteca Antigua"
+components:
+  description: "Una biblioteca con estantes polvorientos. Hay un libro abierto en un atril central, brillando tenuemente."
+  visited: false
