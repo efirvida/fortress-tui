@@ -1,12 +1,27 @@
+# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling artifacts
+.atl/
 .pytest_cache/
 .coverage
 htmlcov/
-.venv/
-*.sqlite
-*.db
-.openspec/
-.codegraph/
-.engram/
+coverage.json
+
+# Textual dev
+.dev/
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
