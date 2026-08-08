@@ -13,7 +13,7 @@ authors = [{ name = "efirvida" }]
 dependencies = [
     "textual>=0.60.0",
     "rich>=13.0",
-    "fortress-engine",
+    "fortress-engine @ git+https://github.com/efirvida/fortress-engine.git@main",
 ]
 
 [project.optional-dependencies]
@@ -29,6 +29,9 @@ fortress-tui = "fortress_tui.app:main"
 [tool.hatch.targets.wheel]
 packages = ["src/fortress_tui"]
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
@@ -36,9 +39,3 @@ python_files = ["test_*.py"]
 [tool.coverage.run]
 source = ["src/fortress_tui"]
 
-# ---------------------------------------------------------------------------
-# Fortress-engine: instalado desde el repositorio de GitHub (estable).
-# Cuando se publique en PyPI, reemplazar con "fortress-engine>=X.Y.Z".
-# ---------------------------------------------------------------------------
-[tool.uv.sources]
-fortress-engine = { git = "https://github.com/efirvida/fortress-engine.git", rev = "main" }
