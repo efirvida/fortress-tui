@@ -13,7 +13,7 @@ Not every game needs this interface. Some worlds will want a minimal REPL, other
 - **Scrollable narrative history** with per-event-type coloring
 - **Live side panel** — current room, room items, inventory, weight, exits, turn counter
 - **Input with history** (↑/↓) and verb autocomplete
-- **World-aware commands** — `ayuda`, `mirar`, `inventario` plus engine commands
+- **World-aware commands** — the TUI reads the world's `vocabulary.yaml` for verb aliases; TUI-local commands (help, look, inventory) are loaded from the world vocabulary and fall back to a default catalog
 - **Media-ready render layer** — text today; image and audio renderers designed in and ready for engine events that don't exist yet (see [Architecture](#architecture))
 - **Internationalized UI** — the interface adapts to the world's declared language (`world.yaml → language`), not hardcoded strings
 - **Dark/light themes** and a debug overlay (flags, raw events, graph state)
@@ -40,17 +40,23 @@ fortress-tui [--world <path>] [--theme dark|light]
 | `fortress-tui --world worlds/demo-5rooms` | Run the bundled demo world |
 | `fortress-tui --world ../fortaleza/worlds/fortaleza` | Run any fortress-engine world |
 
-In-game commands (Spanish in the bundled demo world; the TUI adapts to the world's declared language — see [Architecture](#architecture)):
+> **Language note:** the TUI is language-agnostic. The language of the
+> interface and the available in-game verbs are defined by the world's
+> `world.yaml → language` and its `vocabulary.yaml`. The bundled
+> `demo-5rooms` world happens to be in Spanish; a world declared as
+> `language: "en"` would surface English verbs and English UI strings.
 
-| Command | Action |
-|---------|--------|
-| `ir <dirección>` / `norte`, `sur`, `este`, `oeste` | Move between rooms |
-| `mirar` / `leer <objeto>` | Describe the current room or an object |
-| `inventario` / `inv` | List carried items |
-| `coger <objeto>` | Take an item |
-| `ayuda` / `help` | Show TUI command help |
-| `guardar`, `cargar` | Save/load (engine-supported) |
-| `terminar` / `quit` | Exit |
+The `demo-5rooms` world's vocabulary is defined in `worlds/demo-5rooms/shared/vocabulary.yaml`. For this Spanish-language world, the engine accepts these verbs:
+
+| Command | Action | Defined in |
+|---------|--------|-----------|
+| `ir <dirección>` / `norte`, `sur`, `este`, `oeste` | Move between rooms | `vocabulary.yaml` (verbs + movement_verbs) |
+| `mirar` / `leer <objeto>` | Describe the current room or an object | `vocabulary.yaml` (verbs) |
+| `inventario` / `inv` | List carried items | `vocabulary.yaml` (verbs) |
+| `coger <objeto>` / `tomar` / `agarrar` | Take an item | `vocabulary.yaml` (verbs) |
+| `ayuda` | Show TUI command help | TUI default catalog (overridable in world vocabulary) |
+
+**In a world with `language: "en"`**, the vocabulary would declare English verb groups (e.g. `go`, `look`, `take`, `inventory`) and the TUI would load its English UI string catalog — no TUI code change required.
 
 ## Architecture
 
@@ -82,7 +88,7 @@ In-game commands (Spanish in the bundled demo world; the TUI adapts to the world
 src/fortress_tui/
 ├── app.py               # Textual App entrypoint
 ├── engine_bridge.py     # Builds engine, subscribes to EventBus → render layer
-├── commands.py          # TUI-level command handlers (localized: ayuda/help, mirar, inventario)
+├── commands.py          # TUI command dispatch: world-vocabulary verbs + TUI-local fallback (help/look/inventory)
 ├── i18n.py              # UI string catalog keyed by world language (fallback when unsupported)
 ├── theme.py             # Textual CSS themes (dark/light)
 ├── render/
@@ -105,7 +111,13 @@ The macro graph already knows every room and passage (`get_edges_from_anchor`), 
 
 ### Design principle: internationalized UI
 
-Every world declares its language in `world.yaml` (`language: "es"`, `"en"`, …). The TUI reads that value at engine-build time and loads its UI string catalog accordingly — panel titles, help text, welcome/error messages, and localized command aliases. If the world's language is not in the catalog yet, the TUI falls back to a default catalog without breaking. Engine narration text is already localized by the engine's narrator; the TUI never duplicates that responsibility.
+The TUI is **language-agnostic**, just like the engine. Every world declares its language in `world.yaml` (`language`, plus its `vocabulary.yaml` for verb aliases and `messages` for world-authored strings). The TUI:
+
+- Loads its UI string catalog keyed by the world's declared language — panel titles, help text, welcome/error messages.
+- If the world's language is not in the catalog yet, falls back to a default catalog without breaking.
+- Routes TUI-local verbs (help/look/inventory) through the world's vocabulary when defined, falling back to a default catalog alias otherwise.
+
+Engine narration text is already localized by the engine's narrator; the TUI never duplicates that responsibility.
 
 ### Design principle: media-ready render layer
 

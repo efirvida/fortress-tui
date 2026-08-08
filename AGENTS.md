@@ -31,7 +31,7 @@ Textual widgets live inside the app event loop and are hard to test. **All logic
 
 - `engine_bridge.py` — builds the engine, subscribes to the EventBus, exposes events to the render layer. No Textual imports.
 - `render/` — dispatch and renderers. Pure: event → output. No Textual imports except where a widget truly needs one.
-- `commands.py` — command parsing/classification (TUI commands vs engine commands). Pure.
+- `commands.py` — command parsing/classification (world-vocabulary verbs vs TUI-local commands vs engine commands). Pure.
 - `i18n.py` — string catalog lookup. Pure.
 - `widgets/map.py` — the map model (visited rooms, traversed passages, position) is a pure dataclass fed by engine events; only the *rendering* of that model lives in the widget.
 
@@ -43,14 +43,13 @@ These are hard design constraints. Do NOT violate them:
 
 1. **UI listens to the engine, not the other way around.** The engine never knows a UI exists. All UI updates flow from EventBus events or from reading `WorldState`.
 2. **Media-ready render layer.** The bridge delivers raw events to a render dispatch that decides the medium (text today; image/audio designed). Text is one rendering of an event, not the event itself. When the engine emits image/audio events, the same dispatch routes them — no bridge changes.
-3. **Internationalized UI.** UI strings come from a catalog keyed by the world's declared language (`world.yaml → language`), with a fallback catalog when the language is unsupported. Engine narration is already localized by the engine's narrator — the TUI never duplicates that.
+3. **Internationalized UI.** The TUI is language-agnostic. UI strings come from a catalog keyed by the world's declared language (`world.yaml → language`), with a fallback catalog when the language is unsupported. TUI-local verbs (help/look/inventory) are routed through the world's `vocabulary.yaml` when defined, falling back to a default catalog alias otherwise. Engine narration is already localized by the engine's narrator — the TUI never duplicates that.
 4. **Engine stays authoritative.** State panels and the map are pure projections of `WorldState` and engine events. The TUI never mutates engine state except through `TurnOrchestrator.execute_turn(text)`.
 5. **Synchronous, single-threaded.** The engine is synchronous; the TUI adapts to it. No async engine calls.
 
 ## Code conventions
 
 - **Code identifiers (classes, methods, variables) in English.** UI copy is internationalized (see i18n); never hardcode UI strings.
-- **Spanish-neutral register for es catalogs** (usted, not voseo) unless the world or user explicitly requests another register.
 - **Thin widgets, pure logic.** See the Testability rule above.
 - Keep the same module layout as the README architecture; rename only with justification.
 
