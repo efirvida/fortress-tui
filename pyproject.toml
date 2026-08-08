@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "fortress-showcase"
+name = "fortress-tui"
 version = "0.1.0"
 description = "Terminal showcase for fortress-engine — developer reference TUI"
 readme = "README.md"
@@ -23,10 +23,10 @@ dev = [
 ]
 
 [project.scripts]
-fortress-showcase = "fortress_showcase.app:main"
+fortress-tui = "fortress_tui.app:main"
 
 [tool.hatch.targets.wheel]
-packages = ["src/fortress_showcase"]
+packages = ["src/fortress_tui"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

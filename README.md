@@ -1,14 +1,15 @@
-# fortress-showcase
+# fortress-tui
 
 **Terminal showcase for [fortress-engine](https://github.com/efirvida/fortress-engine) — a polished TUI that doubles as a developer reference for integrating the engine.**
 
-Interactive fiction engines are headless: they parse commands, validate actions, and emit events, but they never paint a pixel. `fortress-showcase` is a reference implementation of one possible presentation layer — a Textual-based TUI that subscribes to the engine's event bus and renders the game. It exists so developers can see exactly how a UI plugs into the engine, and use it as a starting point for their own.
+Interactive fiction engines are headless: they parse commands, validate actions, and emit events, but they never paint a pixel. `fortress-tui` is a reference implementation of one possible presentation layer — a Textual-based TUI that subscribes to the engine's event bus and renders the game. It exists so developers can see exactly how a UI plugs into the engine, and use it as a starting point for their own.
 
 Not every game needs this interface. Some worlds will want a minimal REPL, others a rich dashboard, others an AI-chat wrapper. This project is one concrete, working example: **a first step, not the destination.**
 
 ## Features
 
 - **Multi-panel TUI** — narrative, live status, command input
+- **Exploration map** — visited rooms, traversed passages, and the current position rendered from the macro graph and movement events
 - **Scrollable narrative history** with per-event-type coloring
 - **Live side panel** — current room, room items, inventory, weight, exits, turn counter
 - **Input with history** (↑/↓) and verb autocomplete
@@ -23,7 +24,7 @@ Requirements: Python 3.11+
 
 ```bash
 pip install -e ".[dev]"
-fortress-showcase --world worlds/demo-5rooms
+fortress-tui --world worlds/demo-5rooms
 ```
 
 Run the bundled `demo-5rooms` tutorial world: move through five rooms, pick up a rusty key and a kitchen knife, cut the vines, and escape.
@@ -31,13 +32,13 @@ Run the bundled `demo-5rooms` tutorial world: move through five rooms, pick up a
 ## Usage
 
 ```
-fortress-showcase [--world <path>] [--theme dark|light]
+fortress-tui [--world <path>] [--theme dark|light]
 ```
 
 | Command | Action |
 |---------|--------|
-| `fortress-showcase --world worlds/demo-5rooms` | Run the bundled demo world |
-| `fortress-showcase --world ../fortaleza/worlds/fortaleza` | Run any fortress-engine world |
+| `fortress-tui --world worlds/demo-5rooms` | Run the bundled demo world |
+| `fortress-tui --world ../fortaleza/worlds/fortaleza` | Run any fortress-engine world |
 
 In-game commands (Spanish in the bundled demo world; the TUI adapts to the world's declared language — see [Architecture](#architecture)):
 
@@ -55,7 +56,7 @@ In-game commands (Spanish in the bundled demo world; the TUI adapts to the world
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                         fortress-showcase                      │
+│                           fortress-tui                            │
 │                                                                │
 │  ┌─────────────────┐      ┌────────────────────────────────┐  │
 │  │   engine_bridge  │      │  render layer (media-ready)    │  │
@@ -78,7 +79,7 @@ In-game commands (Spanish in the bundled demo world; the TUI adapts to the world
 ```
 
 ```
-src/fortress_showcase/
+src/fortress_tui/
 ├── app.py               # Textual App entrypoint
 ├── engine_bridge.py     # Builds engine, subscribes to EventBus → render layer
 ├── commands.py          # TUI-level command handlers (localized: ayuda/help, mirar, inventario)
@@ -94,8 +95,13 @@ src/fortress_showcase/
 └── widgets/
     ├── narrative.py     # Scrollable narrative panel
     ├── status.py        # Side status panel
+    ├── map.py           # Exploration map: visited rooms, traversed passages, position
     └── command_input.py # Input with history + autocomplete
 ```
+
+### Design principle: exploration map
+
+The macro graph already knows every room and passage (`get_edges_from_anchor`), and the engine emits `entity_entered`/`entity_teleported` on every movement. The map widget tracks visited anchors from those events and renders the traversed world — visited rooms by name, known-but-unvisited passages as unexplored, and a marker at the protagonist's current position. The engine stays authoritative; the map is a pure projection of engine events and state.
 
 ### Design principle: internationalized UI
 
@@ -115,17 +121,17 @@ This is the integration pattern the showcase exists to demonstrate: **UI listens
 ```bash
 pip install -e ".[dev]"
 pytest                # run the test suite
-textual run --dev src/fortress_showcase/app.py --world worlds/demo-5rooms  # dev mode
+textual run --dev src/fortress_tui/app.py --world worlds/demo-5rooms  # dev mode
 ```
 
 ## Roadmap
 
-The project is planned as epics tracked in [GitHub issues](https://github.com/efirvida/fortress-showcase/issues):
+The project is planned as epics tracked in [GitHub issues](https://github.com/efirvida/fortress-tui/issues):
 
 | Epic | Issues | Status |
 |------|--------|--------|
 | `epic:fundacion` — repo, CI, docs | #1, #14 | In progress |
-| `epic:core-tui` — playable TUI core | #2–#7, #15 | Planned |
+| `epic:core-tui` — playable TUI core | #2–#7, #15, #17 | Planned |
 | `epic:media-ready` — image/audio render layer | #8–#10 | Designed |
 | `epic:pulido` — themes, debug, autocomplete | #11–#13 | Planned |
 
